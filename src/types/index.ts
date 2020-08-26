@@ -63,10 +63,10 @@ export interface AxiosInstance extends Axios {
   <T = any>(string: string | AxiosRequestConfig, config?: AxiosRequestConfig): AxiosPromise<T>
 }
 export interface AxiosStatic extends AxiosInstance {
-  Axios: Axios
+  Axios: typeof Axios
+  CancelToken: typeof CancelToken
+  Cancel: typeof Cancel
   create(config?: AxiosRequestConfig): AxiosInstance
-  CancelToken: CancelToken
-  Cancel: Cancel
   isCancel(val: any): boolean
   all<T>(arr: Array<T | Promise<T>>): Promise<T[]>
   spread<T, Y = any>(cb: (...rest: Array<T>) => Y): (arr: Array<T>) => Y

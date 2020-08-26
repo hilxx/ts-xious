@@ -14,10 +14,10 @@ const prototype = Axios.prototype,
   },
   axios = createAxios(defaultConfig) as AxiosStatic
 
-axios.Axios = Axios as any
-axios.Cancel = Cancel as any
+axios.Axios = Axios
+axios.Cancel = Cancel
+axios.CancelToken = CancelToken
 axios.isCancel = Cancel.isCancel
-axios.CancelToken = CancelToken as any
 axios.create = function(config) {
   return createAxios(mergeConfig(defaultConfig, config))
 }

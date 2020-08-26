@@ -1,6 +1,6 @@
 import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types'
 import xhr from './xhr'
-import { buildUrl, combineUrl } from '../helpers/url'
+import { buildUrl, combineUrl, isFormData } from '../helpers/url'
 import { flatHeaders, addTokenToHeaders, supportAuthorization } from './header'
 import transformer from './transformer/transformer'
 const axios = (config: AxiosRequestConfig): AxiosPromise => {
@@ -23,6 +23,7 @@ export const processConfig = (config: AxiosRequestConfig): AxiosRequestConfig =>
   },
   processHeaders = (config: AxiosRequestConfig): any => {
     config.headers = flatHeaders(config.headers, config.method)
+    if (isFormData(config.data)) delete config.headers['Content-Type']
     addTokenToHeaders(config)
     supportAuthorization(config)
     return config.headers
