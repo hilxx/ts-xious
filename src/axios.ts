@@ -1,16 +1,16 @@
 import Axios from './core/Axios'
-import { AxiosStatic, AxiosInstance, AxiosRequestConfig } from './types'
+import { AxiosStatic, AxiosConstructor, AxiosRequestConfig } from './types'
 import { combinedObj } from './helpers/utils'
 import defaultConfig from './default'
 import { mergeConfig } from './helpers/requestConfig'
 import { Cancel, CancelToken } from './core/cancel'
 const prototype = Axios.prototype,
-  createAxios = (defaultConfig?: AxiosRequestConfig): AxiosInstance => {
+  createAxios = (defaultConfig?: AxiosRequestConfig): AxiosConstructor => {
     const axios = new Axios(defaultConfig),
       instance = prototype.request.bind(axios)
 
     combinedObj(instance, prototype, axios)
-    return instance as AxiosInstance
+    return instance as AxiosConstructor
   },
   axios = createAxios(defaultConfig) as AxiosStatic
 

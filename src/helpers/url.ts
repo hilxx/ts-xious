@@ -1,10 +1,9 @@
 import { isDate, isPlainObj, isURLSearchParams } from './utils'
 import { ParamsSerializer } from '../types'
-import defaultConfig from '../default'
+
 interface UrlOrgin {
   host: string
   protocol: string
-  port: string
 }
 
 export const encode = (() => {
@@ -60,7 +59,6 @@ export const encode = (() => {
   },
   isSameOrgin = (() => {
     const _orgin: UrlOrgin = {
-        port: location.port,
         host: location.host,
         protocol: location.protocol
       },
@@ -78,6 +76,7 @@ export const encode = (() => {
     const reg = /^[\w\+\-\.]+:\/\//
     return (url: string): boolean => reg.test(url)
   })(),
+  /* 与baseUrl混合 */
   combineUrl = (base: string, relative: string): string => {
     relative = relative.trim()
     if (isAbsoluteUrl(relative)) return relative
@@ -89,4 +88,5 @@ export const encode = (() => {
       base = base.slice(0, base.length - 1)
     }
     return `${base}/${relative}`
-  }
+  },
+  isFormData = (data: any): data is FormData => data instanceof FormData

@@ -1,7 +1,7 @@
 import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types'
 import xhr from './xhr'
 import { buildUrl, combineUrl, isFormData } from '../helpers/url'
-import { flatHeaders, addTokenToHeaders, supportAuthorization } from './header'
+import { flatHeaders, addTokenToHeaders, supportAuthorization } from '../helpers/header'
 import transformer from './transformer/transformer'
 const axios = (config: AxiosRequestConfig): AxiosPromise => {
   throwTokenRequested(config)
@@ -23,9 +23,9 @@ export const processConfig = (config: AxiosRequestConfig): AxiosRequestConfig =>
   },
   processHeaders = (config: AxiosRequestConfig): any => {
     config.headers = flatHeaders(config.headers, config.method)
-    if (isFormData(config.data)) delete config.headers['Content-Type']
     addTokenToHeaders(config)
     supportAuthorization(config)
+    if (isFormData(config.data)) delete config.headers['Content-Type']
     return config.headers
   },
   processResponse = (response: AxiosResponse): AxiosResponse => {
@@ -33,6 +33,7 @@ export const processConfig = (config: AxiosRequestConfig): AxiosRequestConfig =>
     return response
   },
   throwTokenRequested = (config: AxiosRequestConfig): void => {
+    /* 一次决议 */
     config.cancelToken && config.cancelToken.throwRequested()
   }
 

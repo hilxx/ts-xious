@@ -1,19 +1,14 @@
-import { Cancel, CancelToken } from './index'
+import { CancelToken } from './index'
 
 export interface CancelCallback {
   (reason: string): void
 }
 
-export interface CancelCallbackExecutor {
+export interface CancelThunk {
   (cb: CancelCallback): void
 }
 
 export interface CancelTokenSource {
   token: CancelToken
   cancel: CancelCallback
-}
-
-export interface CancelClass {
-  new (message: string): Cancel
-  isCancel(val: any): boolean
 }

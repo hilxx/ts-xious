@@ -1,15 +1,15 @@
-import { CancelCallbackExecutor, CancelTokenSource, CancelCallback } from './types'
+import { CancelThunk, CancelTokenSource, CancelCallback } from './types'
 import Cancel from './Cancel'
 
 export default class CancelToken {
   promise: Promise<Cancel>
   reason?: Cancel
-  constructor(cb: CancelCallbackExecutor) {
+  constructor(cb: CancelThunk) {
     let outResolve: Function
     this.promise = new Promise(resolve => {
       outResolve = resolve
     })
-    cb((reason: string) => {
+    cb((reason = '') => {
       if (this.reason) return
       this.reason = new Cancel(reason)
       outResolve(this.reason)
@@ -17,12 +17,7 @@ export default class CancelToken {
   }
 
   throwRequested() {
-    if (Reflect.has(this, 'reason')) {
-      throw {
-        token: this.reason,
-        message: `this token is arlready used`
-      }
-    }
+    if (Reflect.has(this, 'reason')) throw this.reason
   }
 
   static source(): CancelTokenSource {

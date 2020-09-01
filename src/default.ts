@@ -1,5 +1,6 @@
 import { AxiosRequestConfig } from './types'
-import { transformHeaders } from './core/header'
+import { complementContentType } from './helpers/header'
+import { isFormData } from './helpers/utils'
 import { transformRequestData, transformResponseData } from './helpers/body'
 
 const notData = ['delete', 'get', 'head', 'options'],
@@ -20,7 +21,7 @@ const notData = ['delete', 'get', 'head', 'options'],
     xsrfCookieName: 'X-XSRF-TOKEN',
     transformRequest: [
       (data, headers): any => {
-        transformHeaders(headers, data)
+        complementContentType(headers, data)
         return transformRequestData(data)
       }
     ],

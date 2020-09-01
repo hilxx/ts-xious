@@ -1,12 +1,12 @@
-import { isToJson, deepMerge } from '../helpers/utils'
+import { isToJson, deepMerge } from './utils'
 import { Methods, AxiosRequestConfig } from '../types'
-import { isSameOrgin } from '../helpers/url'
-import { readCookie } from '../helpers/cookie'
+import { isSameOrgin } from './url'
+import { readCookie } from './cookie'
 
 const CONTENT_TYPE = 'Content-Type',
   deleteHeadersProps = ['delete', 'options', 'get', 'head', 'post', 'put', 'patch', 'common']
 
-export const transformHeaders = (headers: any, data: any): object => {
+export const complementContentType = (headers: any, data: any): object => {
     if (!data) return headers
     const keys = Object.keys(headers)
     normalizeHeaderName_(headers, [CONTENT_TYPE])
