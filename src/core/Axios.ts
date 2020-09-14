@@ -55,19 +55,19 @@ export default class {
 
   /* ----获取---- */
   request<T>(url: string | AxiosRequestConfig, config?: AxiosRequestConfig): AxiosPromise<T> {
-    return this[requestSymbol]<T>(undefined, url, config)
+    return this[requestSymbol]<T>(undefined, url, null, config)
   }
   get<T>(url: string, config?: AxiosRequestConfig): AxiosPromise<T> {
-    return this[requestSymbol]<T>('get', url, config)
+    return this[requestSymbol]<T>('get', url, null, config)
   }
   delete<T>(url: string, config?: AxiosRequestConfig): AxiosPromise<T> {
-    return this[requestSymbol]<T>('delete', url, config)
+    return this[requestSymbol]<T>('delete', url, null, config)
   }
   head<T>(url: string, config?: AxiosRequestConfig): AxiosPromise<T> {
-    return this[requestSymbol]<T>('head', url, config)
+    return this[requestSymbol]<T>('head', url, null, config)
   }
   options<T>(url: string, config?: AxiosRequestConfig): AxiosPromise<T> {
-    return this[requestSymbol]<T>('head', url, config)
+    return this[requestSymbol]<T>('head', url, null, config)
   }
 
   /* ----携带data---- */

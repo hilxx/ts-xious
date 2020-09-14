@@ -1,7 +1,8 @@
 import { AxiosRequestConfig } from '../types'
 import { deepMerge, isPlainObj } from './utils'
 
-export const computeConfig = (url: any, data?: any, config?: any): AxiosRequestConfig => {
+export const /* 多参数计算出config */
+  computeConfig = (url: any, data?: any, config?: any): AxiosRequestConfig => {
     if (data === config && data === undefined) return isPlainObj(url) ? url : { url: url }
     if (config === undefined) {
       data.url = url
@@ -11,6 +12,7 @@ export const computeConfig = (url: any, data?: any, config?: any): AxiosRequestC
     config.url = url
     return config
   },
+  /* 后面覆盖前面 */
   mergeConfig = (() => {
     const strategys: any = {},
       defaultStrat = (v1: any, v2: any): any => (v2 === undefined ? v1 : v2),

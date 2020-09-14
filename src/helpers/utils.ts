@@ -1,6 +1,7 @@
 const { toString } = Object.prototype,
   OBJECT = '[object Object]'
 
+/* val is XXX */
 export const isObj = (obj: any): obj is Object => typeof obj === 'object' && obj !== null,
   isPlainObj = (obj: any): obj is Object => toString.call(obj) === OBJECT,
   isDate = (date: any): date is Date => {
@@ -11,7 +12,11 @@ export const isObj = (obj: any): obj is Object => typeof obj === 'object' && obj
       return false
     }
   },
-  isToJson = (o: any): boolean => isPlainObj(o) || Array.isArray(o),
+  isFormData = (val: any): val is FormData => val instanceof FormData,
+  isURLSearchParams = (val: any): val is URLSearchParams => val instanceof URLSearchParams
+
+export const /* to set headers['content-type'] = application/json */
+  canToJson = (o: any): boolean => isPlainObj(o) || Array.isArray(o),
   tryJsonParse = (data: any): any => {
     if (typeof data !== 'string') return data
     try {
@@ -20,7 +25,9 @@ export const isObj = (obj: any): obj is Object => typeof obj === 'object' && obj
       return data
     }
   },
+  /* 填充o1没有的属性 */
   combinedObj = (o1: any, ...restObj: any[]): any => {
+    o1 = isObj(o1) ? o1 : {}
     for (const obj of restObj) {
       for (const key of Reflect.ownKeys(obj)) {
         if (!Reflect.has(o1, key)) {
@@ -30,7 +37,7 @@ export const isObj = (obj: any): obj is Object => typeof obj === 'object' && obj
     }
     return o1
   },
-  deepMerge = (...restObj: any[]) => {
+  deepMerge = (...restObj: any[]): any => {
     const res = {},
       step = (v1: any, v2: any): any => {
         /* v2 同名覆盖 v1 */
@@ -42,11 +49,7 @@ export const isObj = (obj: any): obj is Object => typeof obj === 'object' && obj
         return v1
       }
 
-    for (const i of restObj)
-      if (isObj(i)) {
-        step(res, i)
-      }
+    for (const i of restObj) if (isObj(i)) step(res, i)
+
     return res
-  },
-  isFormData = (val: any): val is FormData => val instanceof FormData,
-  isURLSearchParams = (val: any): val is URLSearchParams => val instanceof URLSearchParams
+  }

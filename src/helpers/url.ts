@@ -1,11 +1,6 @@
 import { isDate, isPlainObj, isURLSearchParams } from './utils'
 import { ParamsSerializer } from '../types'
 
-interface UrlOrgin {
-  host: string
-  protocol: string
-}
-
 export const encode = (() => {
     const _specialCharList = [
       [/%40/g, '@'],
@@ -27,7 +22,9 @@ export const encode = (() => {
   buildUrl = (url: string, params?: object, paramsSerializer?: ParamsSerializer): string => {
     let hashIndex = url.indexOf('#'),
       serialized: string
-    if (~hashIndex) url = url.slice(0, hashIndex)
+
+    url = ~hashIndex ? url.slice(0, hashIndex) : url
+    url = url.endsWith('/') ? url.slice(0, url.length - 1) : url
     if (params == undefined) return url
 
     switch (true) {
@@ -58,18 +55,11 @@ export const encode = (() => {
     return url + (url.includes('?') ? '&' : '?') + serialized
   },
   isSameOrgin = (() => {
-    const _orgin: UrlOrgin = {
-        host: location.host,
-        protocol: location.protocol
-      },
-      _originKeys = Object.keys(_orgin),
-      _tagA = document.createElement('a')
+    const _tagA = document.createElement('a')
     return (url: string): boolean => {
       _tagA.setAttribute('href', url)
-      for (const key of _originKeys as Array<keyof UrlOrgin>) {
-        if ((_tagA[key] as any) !== (_orgin[key] as any)) return false
-      }
-      return true
+      if (_tagA.origin === location.origin) return true
+      return false
     }
   })(),
   isAbsoluteUrl = (() => {
@@ -88,5 +78,4 @@ export const encode = (() => {
       base = base.slice(0, base.length - 1)
     }
     return `${base}/${relative}`
-  },
-  isFormData = (data: any): data is FormData => data instanceof FormData
+  }

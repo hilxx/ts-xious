@@ -1,6 +1,5 @@
 import { AxiosRequestConfig } from './types'
-import { complementContentType } from './helpers/header'
-import { isFormData } from './helpers/utils'
+import { complementContentType } from './helpers/headers'
 import { transformRequestData, transformResponseData } from './helpers/body'
 
 const notData = ['delete', 'get', 'head', 'options'],

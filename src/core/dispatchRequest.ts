@@ -1,8 +1,10 @@
 import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types'
 import xhr from './xhr'
-import { buildUrl, combineUrl, isFormData } from '../helpers/url'
-import { flatHeaders, addTokenToHeaders, supportAuthorization } from '../helpers/header'
+import { buildUrl, combineUrl } from '../helpers/url'
+import { isFormData } from '../../src/helpers/utils'
+import { flatHeaders, addTokenToHeaders, supportAuthorization } from '../helpers/headers'
 import transformer from './transformer/transformer'
+
 const axios = (config: AxiosRequestConfig): AxiosPromise => {
   throwTokenRequested(config)
   processConfig(config)

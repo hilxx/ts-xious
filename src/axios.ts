@@ -4,6 +4,7 @@ import { combinedObj } from './helpers/utils'
 import defaultConfig from './default'
 import { mergeConfig } from './helpers/requestConfig'
 import { Cancel, CancelToken } from './core/cancel'
+
 const prototype = Axios.prototype,
   createAxios = (defaultConfig?: AxiosRequestConfig): AxiosConstructor => {
     const axios = new Axios(defaultConfig),
