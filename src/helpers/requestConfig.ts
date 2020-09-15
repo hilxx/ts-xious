@@ -1,16 +1,22 @@
 import { AxiosRequestConfig } from '../types'
-import { deepMerge, isPlainObj } from './utils'
+import { deepMerge } from './utils'
 
 export const /* 多参数计算出config */
-  computeConfig = (url: any, data?: any, config?: any): AxiosRequestConfig => {
-    if (data === config && data === undefined) return isPlainObj(url) ? url : { url: url }
-    if (config === undefined) {
-      data.url = url
-      return data
+  computeConfig = (...restProps: any[]): AxiosRequestConfig => {
+    let [url, config, data] = restProps
+
+    /* 如果传递了第三个参数： config as data, data as config*/
+    if (restProps.length === 3 && data) {
+      data.data = config
+      config = data
     }
-    config.data = data
-    config.url = url
-    return config
+    /* 判断url is config ?  */
+    if (typeof url === 'string') {
+      config = config || {}
+      config.url = url
+    } else config = url
+
+    return config as AxiosRequestConfig
   },
   /* 后面覆盖前面 */
   mergeConfig = (() => {

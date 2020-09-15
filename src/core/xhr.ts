@@ -1,8 +1,9 @@
 import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types'
 import { Cancel } from './cancel'
 import AxiosError from './Error/Error'
+import { tryJsonParse } from '../helpers/utils'
 
-export default (config: AxiosRequestConfig): AxiosPromise => {
+export default <T>(config: AxiosRequestConfig): AxiosPromise<T> => {
   return new Promise((resolve, reject) => {
     const {
         url,
@@ -35,7 +36,7 @@ export default (config: AxiosRequestConfig): AxiosPromise => {
             config,
             request: xhr,
             headers: xhr.getAllResponseHeaders(),
-            data: responseType === 'text' ? xhr.responseText : xhr.response
+            data: tryJsonParse(responseType === 'text' ? xhr.responseText : xhr.response)
           }
           switch (true) {
             case !validateStatus:

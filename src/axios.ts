@@ -4,6 +4,7 @@ import { combinedObj } from './helpers/utils'
 import defaultConfig from './default'
 import { mergeConfig } from './helpers/requestConfig'
 import { Cancel, CancelToken } from './core/cancel'
+import { clearConfigCache } from 'prettier'
 
 const prototype = Axios.prototype,
   createAxios = (defaultConfig?: AxiosRequestConfig): AxiosConstructor => {
@@ -11,6 +12,7 @@ const prototype = Axios.prototype,
       instance = prototype.request.bind(axios)
 
     combinedObj(instance, prototype, axios)
+
     return instance as AxiosConstructor
   },
   axios = createAxios(defaultConfig) as AxiosStatic

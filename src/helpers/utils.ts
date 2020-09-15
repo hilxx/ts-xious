@@ -2,7 +2,8 @@ const { toString } = Object.prototype,
   OBJECT = '[object Object]'
 
 /* val is XXX */
-export const isObj = (obj: any): obj is Object => typeof obj === 'object' && obj !== null,
+export const isObj = (obj: any): obj is Object =>
+    (typeof obj === 'object' || typeof obj === 'function') && obj !== null,
   isPlainObj = (obj: any): obj is Object => toString.call(obj) === OBJECT,
   isDate = (date: any): date is Date => {
     try {

@@ -5,10 +5,10 @@ import { isFormData } from '../../src/helpers/utils'
 import { flatHeaders, addTokenToHeaders, supportAuthorization } from '../helpers/headers'
 import transformer from './transformer/transformer'
 
-const axios = (config: AxiosRequestConfig): AxiosPromise => {
+const axios = <T>(config: AxiosRequestConfig): AxiosPromise<T> => {
   throwTokenRequested(config)
   processConfig(config)
-  return xhr(config).then(response => processResponse(response))
+  return xhr<T>(config).then((response: AxiosResponse<T>) => processResponse(response))
 }
 
 export const processConfig = (config: AxiosRequestConfig): AxiosRequestConfig => {

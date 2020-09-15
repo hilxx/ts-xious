@@ -2,21 +2,19 @@ import { CancelToken, Cancel } from '../core/cancel'
 import { TransformerCallback } from '../core/transformer'
 import Axios from '../core/Axios'
 
-export type Methods =
+export type NotCarryDataMethods =
   | 'GET'
   | 'get'
-  | 'POST'
-  | 'post'
   | 'HEAD'
   | 'head'
   | 'OPTIONS'
   | 'options'
-  | 'PUT'
-  | 'put'
-  | 'PATCH'
-  | 'patch'
   | 'DELETE'
   | 'delete'
+
+export type CarryDataMethods = 'PUT' | 'put' | 'PUT' | 'PATCH' | 'patch' | 'POST' | 'post'
+
+export type Methods = NotCarryDataMethods | CarryDataMethods
 
 export interface AxiosRequestConfig {
   url?: string
@@ -50,7 +48,7 @@ export interface AxiosResponse<T = any> {
   request: XMLHttpRequest
 }
 
-export type AxiosPromise<T = any> = Promise<AxiosResponse<T>>
+export type AxiosPromise<T> = Promise<AxiosResponse<T>>
 export interface AxiosConstructor extends Axios {
   <T = any>(config: AxiosRequestConfig): AxiosPromise<T>
   <T = any>(string: string | AxiosRequestConfig, config?: AxiosRequestConfig): AxiosPromise<T>
